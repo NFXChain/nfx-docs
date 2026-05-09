@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFX Chain - Documentation</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <img src="assets/images/logo.png" alt="NFX Chain Logo" class="logo">
+            <h1>NFX Chain</h1>
+            <p class="subtitle">Documentation</p>
+        </div>
+        <ul class="nav-list">
+            <li><a href="#overview" class="nav-link active">Overview</a></li>
+            <li><a href="#architecture" class="nav-link">Architecture</a></li>
+            <li><a href="#installation" class="nav-link">Installation</a></li>
+            <li><a href="#modules" class="nav-link">Modules</a></li>
+            <li><a href="#examples" class="nav-link">Examples</a></li>
+            <li><a href="#reference" class="nav-link">API Reference</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <p>Version 1.0.0</p>
+            <a href="https://github.com/NFXChain" target="_blank">
+                <i class="fab fa-github"></i> GitHub
+            </a>
+        </div>
+    </nav>
+
+    <main class="content">
+        <section id="overview" class="section active">
+            <h2><i class="fas fa-rocket"></i> Project Overview</h2>
+            <div class="card">
+                <h3>What is NFX Chain?</h3>
+                <p>NFX Chain is a next-generation blockchain platform that combines cutting-edge technologies to create a secure, scalable, and intelligent decentralized network. It features quantum-resistant cryptography, AI-driven governance, and a hybrid consensus mechanism called Proof of Exponential Security (PoES).</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h4>Quantum Resistant</h4>
+                    <p>SHA-3 based cryptography protected against quantum attacks</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-brain"></i>
+                    <h4>AI Governance</h4>
+                    <p>Neural networks validate blocks and manage network parameters</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-link"></i>
+                    <h4>Hybrid Consensus</h4>
+                    <p>PoW + PoS + PoES for optimal security and efficiency</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-code"></i>
+                    <h4>Smart Contracts</h4>
+                    <p>JavaScript VM for flexible contract development</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="architecture" class="section">
+            <h2><i class="fas fa-sitemap"></i> Architecture</h2>
+            <div class="architecture-diagram">
+                <pre>
+┌─────────────────────────────────────────────────────────────┐
+│                    NFX Chain Stack                         │
+├─────────────────────────────────────────────────────────────┤
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐  │
+│  │ Wallet   │  │   Go    │  │Bindings  │  │  Core    │  │
+│  │(Qt/QML)  │◄─►│   API   │◄─►│ (CGo)    │◄─►│(C++/Qt)  │  │
+│  └────┬─────┘  └────┬────┘  └────┬─────┘  └────┬─────┘  │
+│       │             │            │             │         │
+│       ▼             ▼            ▼             ▼         │
+│  ┌───────────────────────────────────────────────────────┐│
+│  │            NFX Core Library (libnfx-core)            ││
+│  │  • Consensus (PoW/PoS/PoES)                         ││
+│  │  • P2P Network & Hypernodes                         ││
+│  │  • Blockchain & Mempool                             ││
+│  │  • Quantum Crypto (SHA-3)                           ││
+│  │  • LevelDB Storage                                  ││
+│  │  • JavaScript VM                                    ││
+│  │  • RPC Server                                       ││
+│  └───────────────────────────────────────────────────────┘│
+└─────────────────────────────────────────────────────────────┘
+                </pre>
+            </div>
+
+            <div class="card">
+                <h3>Data Flow</h3>
+                <ol>
+                    <li><strong>Transaction</strong> created in Wallet or via API</li>
+                    <li><strong>Broadcast</strong> through P2P network to hypernodes</li>
+                    <li><strong>Validation</strong> by AI governance and consensus rules</li>
+                    <li><strong>Block creation</strong> by selected minter (PoW/PoS/PoES)</li>
+                    <li><strong>Verification</strong> by network consensus</li>
+                    <li><strong>Chain addition</strong> and state update in LevelDB</li>
+                </ol>
+            </div>
+        </section>
+
+        <section id="installation" class="section">
+            <h2><i class="fas fa-wrench"></i> Installation & Building</h2>
+
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="ubuntu">Ubuntu/Debian</button>
+                <button class="tab-btn" data-tab="macos">macOS</button>
+                <button class="tab-btn" data-tab="build-all">All Modules</button>
+            </div>
+
+            <div id="ubuntu" class="tab-content active">
+                <h3>Ubuntu 22.04+</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Terminal</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <pre><code># Install dependencies
+sudo apt update
+sudo apt install -y build-essential cmake git \
+    qtbase5-dev qt5-qmake qtbase5-dev-tools \
+    libleveldb-dev libssl-dev libboost-all-dev \
+    wget curl
+
+# Install Go 1.19+
+wget https://go.dev/dl/go1.19.13.linux-amd64.tar.gz
+sudo rm -rf /usr/local/go
+sudo tar -C /usr/local -xzf go1.19.13.linux-amd64.tar.gz
+echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc
+source ~/.bashrc
+
+# Clone and build
+git clone https://github.com/NFXChain/nfx-chain.git
+cd nfx-chain
+
+# Build nfx-core
+cd nfx-core
+mkdir build && cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make -j$(nproc)
+cd ../..
+
+# Build nfx-go
+cd nfx-go
+go mod download
+go build -o nfx-node ./api
+cd ..
+
+# Run node
+./nfx-go/nfx-node --config config.toml</code></pre>
+                </div>
+            </div>
+
+            <div id="macos" class="tab-content">
+                <h3>macOS</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Terminal</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <pre><code># Install Homebrew (if not installed)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Install dependencies
+brew install cmake qt5 leveldb boost openssl go
+
+# Set Qt5 environment
+export PATH="/usr/local/opt/qt/bin:$PATH"
+export LDFLAGS="-L/usr/local/opt/qt/lib"
+export CPPFLAGS="-I/usr/local/opt/qt/include"
+
+# Clone and build
+git clone https://github.com/NFXChain/nfx-chain.git
+cd nfx-chain
+
+# Build nfx-core
+cd nfx-core
+mkdir build && cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make -j$(sysctl -n hw.ncpu)
+cd ../..
+
+# Build nfx-go
+cd nfx-go
+go mod download
+go build -o nfx-node ./api
+cd ..
+
+# Run node
+./nfx-go/nfx-node --config config.toml</code></pre>
+                </div>
+            </div>
+
+            <div id="build-all" class="tab-content">
+                <h3>Complete Build Script</h3>
+                <p>Use the provided build script for automated setup:</p>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>build_nfx.sh</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <pre><code># From project root
+chmod +x build_nfx.sh
+./build_nfx.sh --testnet  # or --mainnet</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="modules" class="section">
+            <h2><i class="fas fa-cubes"></i> Modules</h2>
+
+            <div class="module-cards">
+                <div class="module-card">
+                    <div class="module-header">
+                        <h3>nfx-core</h3>
+                        <span class="badge">C++</span>
+                    </div>
+                    <p>Core blockchain engine providing consensus, P2P networking, quantum-resistant cryptography, and JavaScript VM.</p>
+                    <ul class="module-features">
+                        <li>Proof of Exponential Security (PoES)</li>
+                        <li>Hypernode mesh network</li>
+                        <li>SHA-3 quantum-safe crypto</li>
+                        <li>LevelDB state storage</li>
+                        <li>Embedded JS VM (Duktape)</li>
+                    </ul>
+                    <a href="docs/modules/core.md" class="btn">Read More</a>
+                </div>
+
+                <div class="module-card">
+                    <div class="module-header">
+                        <h3>nfx-bindings</h3>
+                        <span class="badge">C/C++</span>
+                    </div>
+                    <p>C bindings exposing core functionality to other languages via CGo, Python ctypes, or direct C linkage.</p>
+                    <ul class="module-features">
+                        <li>C ABI compatible</li>
+                        <li>Thread-safe wrappers</li>
+                        <li>Memory-managed interfaces</li>
+                        <li>Zero-copy data exchange</li>
+                    </ul>
+                    <a href="docs/modules/bindings.md" class="btn">Read More</a>
+                </div>
+
+                <div class="module-card">
+                    <div class="module-header">
+                        <h3>nfx-go</h3>
+                        <span class="badge">Go</span>
+                    </div>
+                    <p>High-level Go API for building applications, CLI tools, and full node implementations.</p>
+                    <ul class="module-features">
+                        <li>Concurrent RPC client</li>
+                        <li>Wallet management</li>
+                        <li>Transaction builder</li>
+                        <li>CLI tools (nfx-cli)</li>
+                    </ul>
+                    <a href="docs/modules/go.md" class="btn">Read More</a>
+                </div>
+
+                <div class="module-card">
+                    <div class="module-header">
+                        <h3>nfx-wallet</h3>
+                        <span class="badge">Qt/QML</span>
+                    </div>
+                    <p>Cross-platform desktop wallet with modern UI, staking interface, and node monitoring.</p>
+                    <ul class="module-features">
+                        <li>Modern QML interface</li>
+                        <li>Local and remote node support</li>
+                        <li>Staking dashboard</li>
+                        <li>Transaction history</li>
+                        <li>Multi-language (i18n)</li>
+                    </ul>
+                    <a href="docs/modules/wallet.md" class="btn">Read More</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="examples" class="section">
+            <h2><i class="fas fa-code"></i> Code Examples</h2>
+
+            <div class="example-tabs">
+                <button class="tab-btn active" data-example="go">Go API</button>
+                <button class="tab-btn" data-example="c">C Bindings</button>
+                <button class="tab-btn" data-example="config">Config</button>
+            </div>
+
+            <div id="go" class="example-content active">
+                <h3>Using the Go API</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>main.go</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <pre><code>package main
+
+import (
+    "fmt"
+    "log"
+    "github.com/NFXChain/nfx-go/api"
+)
+
+func main() {
+    // Connect to local node
+    client := api.NewClient("http://localhost:8332", "nfxuser", "yourpassword")
+
+    // Get blockchain info
+    info, err := client.GetBlockchainInfo()
+    if err != nil {
+        log.Fatal(err)
+    }
+    fmt.Printf("Chain: %s\n", info.Chain)
+    fmt.Printf("Blocks: %d\n", info.Blocks)
+
+    // Send transaction
+    txID, err := client.SendTransaction("NFX_ADDRESS", 1.5)
+    if err != nil {
+        log.Fatal(err)
+    }
+    fmt.Printf("Transaction sent: %s\n", txID)
+}</code></pre>
+                </div>
+            </div>
+
+            <div id="c" class="example-content">
+                <h3>Using C Bindings</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>example.c</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <pre><code>#include &lt;stdio.h&gt;
+#include "nfx_bindings.h"
+
+int main() {
+    // Initialize node
+    nfx_node_t *node = nfx_node_create();
+    nfx_node_init(node, "config.toml");
+
+    // Connect to network
+    nfx_error_t err = nfx_node_start(node);
+    if (err != NFX_OK) {
+        printf("Failed to start node: %s\n", nfx_error_string(err));
+        return 1;
+    }
+
+    printf("Node started successfully!\n");
+
+    // Get balance
+    uint64_t balance;
+    err = nfx_get_balance(node, "NFX_ADDRESS", &balance);
+    if (err == NFX_OK) {
+        printf("Balance: %lu\n", balance);
+    }
+
+    nfx_node_destroy(node);
+    return 0;
+}</code></pre>
+                </div>
+            </div>
+
+            <div id="config" class="example-content">
+                <h3>Configuration File (config.toml)</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>config.toml</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <pre><code># NFX Chain Node Configuration
+
+# Network
+datadir = "/home/user/.nfx/data"
+logfile = "/home/user/.nfx/logs/nfx.log"
+loglevel = "info"
+
+[network]
+testnet = true          # Use testnet (set false for mainnet)
+p2p_port = 18333
+rpc_port = 18332
+maxconnections = 50
+
+[consensus]
+consensus = "poes"     # pow, pos, or poes
+powdifficulty = 1
+posminstake = 1000
+
+[rpc]
+rpcuser = "nfxuser"
+rpcpassword = "securepassword"
+rpcallowip = "127.0.0.1"
+
+[performance]
+dbcache = 256          # MB
+maxmempool = 128       # MB</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="reference" class="section">
+            <h2><i class="fas fa-book"></i> API Reference</h2>
+            <div class="api-grid">
+                <a href="docs/api/go.md" class="api-link">
+                    <i class="fas fa-go-branch"></i>
+                    <span>Go API</span>
+                </a>
+                <a href="docs/api/c.md" class="api-link">
+                    <i class="fas fa-code"></i>
+                    <span>C API</span>
+                </a>
+                <a href="docs/api/rpc.md" class="api-link">
+                    <i class="fas fa-network-wired"></i>
+                    <span>JSON-RPC</span>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>© 2024 NFX Chain. Released under the MIT License.</p>
+            <div class="footer-links">
+                <a href="https://github.com/NFXChain" target="_blank">GitHub</a>
+                <a href="https://discord.gg/nfx" target="_blank">Discord</a>
+                <a href="https://twitter.com/NFXChain" target="_blank">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/scripts.js"></script>
+</body>
+</html>
